@@ -45,7 +45,8 @@ class StatsController extends Controller
 
         return $this->render('stats/index.html.twig', [
             'stats' => $stats,
-            'stats_last_week' => $stats_last_week
+            'stats_last_week' => $stats_last_week,
+            'lines' => $em->getRepository(Game::class)->getGamesByWinningLines()
         ]);
     }
 }

@@ -195,4 +195,21 @@ class GameRepository extends EntityRepository
         // return value formatted as percentage
         return (int)(100 * $queryBuilder->getQuery()->getSingleScalarResult() / $total);
     }
+
+    /**
+     * return count games group by victory lines
+     *
+     * @return integer $percentage
+     */
+    public function getGamesByWinningLines()
+    {
+      // build query for get last week games won by circles
+      $queryBuilder = $this->getEntityManager()->createQueryBuilder()
+          ->select('count(game.id), game.line')
+          ->where('game.line IS NOT NULL')
+          ->groupBy('game.line')
+          ->from('App\Entity\Game','game');
+
+      return $queryBuilder->getQuery()->getResult();
+    }
 }

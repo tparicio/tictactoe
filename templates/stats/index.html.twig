@@ -70,4 +70,25 @@
             {% trans %}last 7 days{% endtrans %}</span>
         </div>
     </div>
+    <div>
+      <h2>{% trans %}Stats by Lines{% endtrans %}</h2>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">{% trans %}Line{% endtrans %}</th>
+            <th scope="col" class="text-center">{% trans %}Games{% endtrans %}</th>
+            <th scope="col" class="text-center">{% trans %}Percentage{% endtrans %}</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for line in lines %}
+                <tr>
+                    <td>{{ line.line }}</td>
+                    <td class="text-center">{{ line[1] }}</td>
+                    <td class="text-center">{{ 100*line[1]/stats.games }}%</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+    </div>
 {% endblock %}

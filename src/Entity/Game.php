@@ -325,5 +325,4 @@ class Game
 
         return $this;
     }
-
 }
