@@ -8,6 +8,7 @@ use App\Utils\Bitboard;
 /**
  * @ORM\Entity
  * @ORM\Table(name="games")
+ * @ORM\Entity(repositoryClass="App\Repository\GameRepository")
  */
 class Game
 {
@@ -60,6 +61,12 @@ class Game
      * @var integer
      */
     private $result;
+
+    /**
+     * @ORM\Column(type="datetime")
+     * @var datetime
+     */
+    private $created_at;
 
     /**
      * Get the value of Id
@@ -258,6 +265,30 @@ class Game
     public function setMode($mode)
     {
         $this->mode = $mode;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of Created At
+     *
+     * @return datetime
+     */
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Set the value of Created At
+     *
+     * @param datetime created_at
+     *
+     * @return self
+     */
+    public function setCreatedAt(datetime $created_at)
+    {
+        $this->created_at = $created_at;
 
         return $this;
     }

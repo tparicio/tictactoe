@@ -1,0 +1,73 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block body %}
+    <div class="text-center my-5">
+        <h1>{% trans %}stats{% endtrans %}</h1>
+    </div>
+    <div class="row tile_count">
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+          <span class="count_top">
+              <i class="far fa-user"></i> {% trans %}Total Users{% endtrans %}
+          </span>
+          <div class="count">{{ stats.users }}</div>
+          <span class="count_bottom">
+              <i class="green">{{ stats_last_week.users }}% </i>
+              {% trans %}last 7 days{% endtrans %}
+          </span>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+          <span class="count_top">
+            <i class="fa fa-trophy"></i>
+            {% trans %}Total Games{% endtrans %}</span>
+          <div class="count">{{ stats.games }}</div>
+          <span class="count_bottom">
+            <i class="green">{{ stats_last_week.games }}%
+            </i>
+            {% trans %}last 7 days{% endtrans %}</span>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+          <span class="count_top">
+            <i class="far fa-circle player1"></i>
+            {% trans %}Victories of circles{% endtrans %}</span>
+          <div class="count">{{ stats.circles }}</div>
+          <span class="count_bottom">
+            <i class="green">
+              <i class="fa fa-sort-asc"></i>{{ stats_last_week.circles }}%
+            </i>
+            {% trans %}last 7 days{% endtrans %}</span>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+          <span class="count_top">
+            <i class="fa fa-times player2"></i>
+            {% trans %}Victories of crosses{% endtrans %}</span>
+          <div class="count green">{{ stats.crosses }}</div>
+          <span class="count_bottom">
+            <i class="green">
+              <i class="fa fa-sort-asc"></i>{{ stats_last_week.crosses }}%
+            </i>
+            {% trans %}last 7 days{% endtrans %}</span>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+          <span class="count_top">
+            <i class="fa fa-equals"></i>
+            {% trans %}Draws{% endtrans %}</span>
+          <div class="count">{{ stats.draws }}</div>
+          <span class="count_bottom">
+            <i class="red">
+              <i class="fa fa-sort-desc"></i>{{ stats_last_week.draws }}%
+            </i>
+            {% trans %}last 7 days{% endtrans %}</span>
+        </div>
+        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+          <span class="count_top">
+            <i class="far fa-calendar"></i>
+            {% trans %}Unfinished{% endtrans %}</span>
+          <div class="count">{{ stats.unfinished }}</div>
+          <span class="count_bottom">
+            <i class="green">
+              <i class="fa fa-sort-asc"></i>{{ stats_last_week.unfinished }}%
+            </i>
+            {% trans %}last 7 days{% endtrans %}</span>
+        </div>
+    </div>
+{% endblock %}

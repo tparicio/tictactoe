@@ -30,3 +30,7 @@ move:
 rematch:
     path:     /game/rematch/{game}
     defaults: { _controller: App\Controller\GameController:rematch }
+
+stats:
+    path:     /stats
+    defaults: { _controller: App\Controller\StatsController:index }
