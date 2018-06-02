@@ -1,6 +1,0 @@
-# app/config/parameters.yml
-parameters:
-    database_host:     localhost
-    database_name:     tic_tac_toe
-    database_user:     root
-    database_password: dobby
