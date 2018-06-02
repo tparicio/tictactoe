@@ -1,0 +1,18 @@
+app_name: Tic Tac Toe
+onevsone_help: Dos jugadores en el mismo ordenador por turnos
+onevsmachine_help: Juega contra la máquina
+player1_wins: ¡El jugador 1 ha ganado!
+player2_wins: ¡El jugador 2 ha ganado!
+game_draw: ¡La partida ha terminado en empate!
+rematch: Revancha
+home: Inicio
+stats: Estadísticas
+One vs One: Uno vs Uno
+One vs Machine: Uno vs Ordenador
+Total Users: Usuarios totales
+last 7 days: últimos 7 días
+Total Games: Partidas jugadas
+Victories of circles: Victorias de círculos
+Victories of crosses: Victorias de cruces
+Draws: Empates
+Unfinished: No terminadas

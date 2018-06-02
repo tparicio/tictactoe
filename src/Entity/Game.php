@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Utils\Bitboard;
 
 /**
+ * Entity for database table games
+ *
  * @ORM\Entity
  * @ORM\Table(name="games")
  * @ORM\Entity(repositoryClass="App\Repository\GameRepository")
@@ -63,8 +65,14 @@ class Game
     private $result;
 
     /**
+     * @ORM\Column(type="string")
+     * @var string
+     */
+    private $line;
+
+    /**
      * @ORM\Column(type="datetime")
-     * @var datetime
+     * @var integer
      */
     private $created_at;
 
@@ -272,7 +280,7 @@ class Game
     /**
      * Get the value of Created At
      *
-     * @return datetime
+     * @return integer
      */
     public function getCreatedAt()
     {
@@ -282,13 +290,38 @@ class Game
     /**
      * Set the value of Created At
      *
-     * @param datetime created_at
+     * @param integer created_at
      *
      * @return self
      */
-    public function setCreatedAt(datetime $created_at)
+    public function setCreatedAt($created_at)
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+
+    /**
+     * Get the value of Line
+     *
+     * @return string
+     */
+    public function getLine()
+    {
+        return $this->line;
+    }
+
+    /**
+     * Set the value of Line
+     *
+     * @param string line
+     *
+     * @return self
+     */
+    public function setLine($line)
+    {
+        $this->line = $line;
 
         return $this;
     }

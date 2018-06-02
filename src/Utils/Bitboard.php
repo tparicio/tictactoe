@@ -42,6 +42,13 @@ class Bitboard {
    */
    const CENTER = 16; // 0b000010000
 
+   /**
+    * when bitboard is a line set line number
+    *
+    * @var null|string
+    */
+   private $line = null;
+
   /**
    * Bitboard as integer
    *
@@ -155,6 +162,7 @@ class Bitboard {
         foreach (self::LINES as $name => $line) {
             // make an AND bit operation to check line
             if ( ($line & $this->integer) == $line) {
+                $this->line = $name;
                 // bitboard line found
                 return $line;
             }
@@ -241,6 +249,16 @@ class Bitboard {
 
            echo " <span> ".$this->binary[$i]." <span> ";
       }
+   }
+
+   /**
+    * return line name
+    *
+    * @return null|string
+    */
+   public function getLine()
+   {
+     return $this->line;
    }
 
    /**

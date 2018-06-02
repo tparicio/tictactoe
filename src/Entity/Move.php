@@ -7,6 +7,8 @@ use Doctrine\ORM\OneToOne;
 use App\Utils\Bitboard;
 
 /**
+ * Entity for database table moves
+ * 
  * @ORM\Entity
  * @ORM\Table(name="moves")
  */

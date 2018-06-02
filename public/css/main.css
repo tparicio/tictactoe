@@ -68,6 +68,70 @@
   color : orange;
 }
 
+.board_wrapper {
+  position : relative;
+  overflow: hidden;
+}
+
+.board_wrapper svg {
+  position : absolute;
+  width : 100%;
+  height : 100%;
+  top : 0;
+  left : 0;
+  right : 0;
+  bottom : 0;
+  transition: all 1s ease-in-out;
+ -moz-transition: all 1s ease-in-out;
+ -webkit-transition: all 1s ease-in-out;
+ border-radius : 25%;
+}
+
+.board_wrapper svg line {
+  stroke: goldenrod;
+  stroke-width: 18;
+  opacity : 0.5;
+}
+/* line down */
+.board_wrapper svg.down {
+  transform: rotate(-44deg);
+  top : 140px;
+}
+
+/* line center */
+.board_wrapper svg.middle {
+  transform: rotate(-44deg);
+}
+
+/* line up */
+.board_wrapper svg.up {
+  transform: rotate(-44deg);
+  top : -140px;
+}
+
+/* diagonal inv */
+.board_wrapper svg.diagonal_inv {
+  transform: rotate(90deg);
+}
+
+/* column right */
+.board_wrapper svg.right {
+  transform: rotate(46deg);
+  left : 140px;
+}
+
+/* column left */
+.board_wrapper svg.left {
+  transform: rotate(46deg);
+  left : -140px;
+}
+
+/* colum center */
+.board_wrapper svg.center {
+  transform: rotate(46deg);
+}
+
+
 /*
  * Tic Tac Toe board
  */

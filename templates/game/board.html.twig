@@ -28,20 +28,25 @@
       <span>{% trans %}player1{% endtrans %}</span>
       <i class="fa fa-user fa-2x"></i>
     </div>
-    <table id="board"
-           data-game="{{ game.id }}"
-           data-turn="{{ game.turn }}"
-           data-result="{{ game.result }}"
-           data-player={{ game.mode == 'machine' ? 1 : 3 }}>
-      {% for row in 3..1 %}
-        <tr>
-          {% for column in 3..1 %}
-            {% set index = (row - 1) * 3 + column %}
-            <td class="{{ bitboard[index].player }}" data-bitboard="{{ bitboard[index].bitboard }}"></td>
-          {% endfor %}
-        </tr>
-      {% endfor %}
-    </table>
+    <div class="board_wrapper">
+      <table id="board"
+             data-game="{{ game.id }}"
+             data-turn="{{ game.turn }}"
+             data-result="{{ game.result }}"
+             data-player={{ game.mode == 'machine' ? 1 : 3 }}>
+        {% for row in 3..1 %}
+          <tr>
+            {% for column in 3..1 %}
+              {% set index = (row - 1) * 3 + column %}
+              <td class="{{ bitboard[index].player }}" data-bitboard="{{ bitboard[index].bitboard }}"></td>
+            {% endfor %}
+          </tr>
+        {% endfor %}
+      </table>
+      <svg id="line_win" class="{{ game.line }}" {{ game.line ?: 'hidden' }}>
+        <line x1="0" y1="0" x2="100%" y2="100%"/>
+      </svg>
+    </div>
     <div id="player2_info"
          class="player_info {{ game.turn == 2 ? 'turn' : '' }} {{ game.result == 2 ? 'winner' : '' }}">
       <i class="fa fa-times fa-2x player2"></i>

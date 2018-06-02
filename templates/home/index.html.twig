@@ -9,7 +9,7 @@
       <h4>by Toni Paricio</h2>
     </div>
     <div id="game-modes">
-        <a class="game-mode" href="/index.php/game/new/human">
+        <a class="game-mode" href="{{ path('game_human') }}">
           <div class="title">
             {% trans %}One vs One{% endtrans %}
           </div>
@@ -20,7 +20,7 @@
           </div>
           <p class="help-block">{% trans %}onevsone_help{% endtrans %}</p>
         </a>
-        <a class="game-mode" href="/index.php/game/new/machine">
+        <a class="game-mode" href="{{ path('game_machine') }}">
             <div class="title">
               {% trans %}One vs Machine{% endtrans %}
             </div>

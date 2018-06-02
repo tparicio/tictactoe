@@ -6,6 +6,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ * Entity for database table users
+ *
  * @ORM\Table(name="users")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
@@ -51,11 +53,21 @@ class User implements UserInterface, \Serializable
         // $this->salt = md5(uniqid('', true));
     }
 
+    /**
+     * Get the value of username
+     *
+     * @return string
+     */
     public function getUsername()
     {
         return $this->username;
     }
 
+    /**
+     * get the salt for encoder
+     *
+     * @return null|string
+     */
     public function getSalt()
     {
         // you *may* need a real salt depending on your encoder
@@ -63,21 +75,39 @@ class User implements UserInterface, \Serializable
         return null;
     }
 
+    /**
+     * Get the value of password
+     *
+     * @return string
+     */
     public function getPassword()
     {
         return $this->password;
     }
 
+    /**
+     * Get a roles array
+     *
+     * @return array
+     */
     public function getRoles()
     {
         return array('ROLE_USER');
     }
 
+    /**
+     * erase credentials
+     */
     public function eraseCredentials()
     {
     }
 
-    /** @see \Serializable::serialize() */
+    /**
+     * serialize user into a string
+     *
+     * @return string
+     * @see \Serializable::serialize()
+     */
     public function serialize()
     {
         return serialize(array(
@@ -90,6 +120,13 @@ class User implements UserInterface, \Serializable
     }
 
     /** @see \Serializable::unserialize() */
+    /**
+     * unserialize user string
+     *
+     * @param  string $serialized
+     * @return mixed
+     * @see \Serializable::unserialize()
+     */
     public function unserialize($serialized)
     {
         list (

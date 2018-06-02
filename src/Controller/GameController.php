@@ -10,6 +10,9 @@ use App\Entity\Game;
 use App\Entity\Move;
 use App\Utils\Bitboard;
 
+/**
+ * Class for handle game request
+ */
 class GameController extends Controller
 {
     /**
@@ -92,10 +95,9 @@ class GameController extends Controller
     /**
      * start new game with same players and switch turn
      *
-     * @param  [type] $game [description]
-     * @return [type] [description]
-     * @author Toni Paricio <toniparicio@gmail.com>
-     * @since  2018-06-01
+     * @param  Game $game
+     * @return Response
+     * @Route("/game/rematch/{game}")
      */
     public function rematch($game)
     {
@@ -112,13 +114,11 @@ class GameController extends Controller
 
     /**
      * receive move from AJAX
-     * check move
-     * return JSON response
+     * check move and return machine move when game vs machine
+     * return JSON response for handle in javascript
      *
      * @param  Request $request [description]
-     * @return [type] [description]
-     * @author Toni Paricio <toniparicio@gmail.com>
-     * @since  2018-06-01
+     * @return ResponseJSON
      */
     public function move(Request $request)
     {
@@ -132,6 +132,7 @@ class GameController extends Controller
 
         $game = $entityManager->find('App\Entity\Game', $request->request->get('game'));
 
+        // save move
         $move = new Move();
         $move->setGame($game);
         $move->setPlayer($player);
@@ -156,11 +157,17 @@ class GameController extends Controller
         $bitboard = $player == 1 ? $game->getBitboardOne() : $game->getBitboardTwo();
         if ($bitboard->isLine()) {
             $game->setResult($player);
+            $game->setLine($bitboard->getLine());
 
             // update game with new board status
             $entityManager->flush();
 
-            return $this->json(['result' => true, 'move' => null, 'winner' => $player]);
+            return $this->json([
+                'result' => true,
+                'move' => null,
+                'winner' => $player,
+                'line' => $bitboard->getLine()
+            ]);
         }
 
         // draw when all squares are taked
@@ -178,13 +185,20 @@ class GameController extends Controller
           $machine = $this->machineMove($game);
 
           // check if player2 wins
-          if ($game->getBitboardTwo()->isLine()) {
+          $bitboard = $game->getBitboardTwo();
+          if ($bitboard->isLine()) {
               $game->setResult(2);
+              $game->setLine($bitboard->getLine());
 
               // update game with new board status
               $entityManager->flush();
 
-              return $this->json(['result' => true, 'move' => $machine ? $machine->getInteger() : null, 'winner' => 2]);
+              return $this->json([
+                'result' => true,
+                'move' => $machine ? $machine->getInteger() : null,
+                'winner' => 2,
+                'line' => $bitboard->getLine()
+              ]);
           }
         }
 

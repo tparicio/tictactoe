@@ -71,7 +71,7 @@ var sendMove = function(bitboard) {
 
         // if game is ended update with winner (winner 3 -> draw)
         if (response.winner) {
-          gameWinner(response.winner);
+          gameWinner(response.winner, response.line);
         }
       }
       if (response.alert) {
@@ -109,7 +109,7 @@ var makeMove = function(bitboard) {
  *         2 : player2 wins
  *         3 : draw
  */
-var gameWinner = function(winner) {
+var gameWinner = function(winner, line) {
     console.log('winner', winner);
     lock = true;
     // show winner alert
@@ -119,6 +119,10 @@ var gameWinner = function(winner) {
     $('#player'+winner+'_info').addClass('winner');
     // remove turn color from player in turn
     $('.player_info.turn').removeClass('turn');
+
+    if (line) {
+      $('#line_win').removeAttr('hidden').addClass(line).fadeIn();
+    }
 };
 
 /**

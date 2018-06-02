@@ -1,26 +1,30 @@
 #index:
 #    path: /
 #    defaults: { _controller: 'App\Controller\DefaultController::index' }
+home:
+    path:     /
+    defaults: { _controller: App\Controller\HomeController:index }
+
 login:
-    path:     /login
+    path:     /{_locale}/login
     defaults: { _controller: App\Controller\UserController:login }
 
 login_check:
-    path: /login_check
+    path: /{_locale}/login_check
 
 logout:
-    path: /logout
+    path: /{_locale}/logout
 
 game:
-    path:     /game/{game}
+    path:     /{_locale}/game/{game}
     defaults: { _controller: App\Controller\GameController:game }
 
 game_human:
-    path:     /game/new/human
+    path:     /{_locale}/game/new/human
     defaults: { _controller: App\Controller\GameController:human }
 
 game_machine:
-    path:     /game/new/machine
+    path:     /{_locale}/game/new/machine
     defaults: { _controller: App\Controller\GameController:machine }
 
 move:
@@ -28,9 +32,9 @@ move:
     defaults: { _controller: App\Controller\GameController:move }
 
 rematch:
-    path:     /game/rematch/{game}
+    path:     /{_locale}/game/rematch/{game}
     defaults: { _controller: App\Controller\GameController:rematch }
 
 stats:
-    path:     /stats
+    path:     /{_locale}/stats
     defaults: { _controller: App\Controller\StatsController:index }

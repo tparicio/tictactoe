@@ -24,6 +24,13 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
+    # Twig_Extension for add some values as global in twig templates
+    App\Extension\TwigExtension:
+        class: App\Extension\TwigExtension
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: twig.extesion }
+
 framework:
     # enables translator for app i18n
     translator: { fallbacks: [en] }
