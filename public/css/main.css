@@ -1,0 +1,143 @@
+#game-modes {
+  text-align: center;
+}
+
+.game-mode {
+  margin: 20px;
+  padding : 15px;
+  text-align: center;
+  text-decoration: none;
+  border : 1px solid blue;
+  display : inline-block;
+}
+
+.game-mode .title {
+  margin : 10px;
+  font-size : 2em;
+}
+
+.game-mode:hover {
+  text-decoration: none;
+}
+
+.game-mode .icon {
+  margin : 20px;
+}
+
+.game-mode span {
+  line-height: 2em;
+  display : inline-block;
+  margin : 0 5px;
+  font-weight: 100;
+  vertical-align: top;
+}
+
+#board_container {
+  width : 450px;
+  text-align: center;
+  margin : 0 auto;
+}
+
+#board_container #player1_info {
+  text-align: left;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #AAA;
+}
+
+#board_container #player2_info {
+  text-align: right;
+  margin-top: 10px;
+  border-top: 1px solid #AAA;
+  -webkit-transition: color 1000ms linear;
+      -ms-transition: color 1000ms linear;
+          transition: color 1000ms linear;
+}
+
+#board_container .player_info span {
+  line-height: 2em;
+  margin : 0 10px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+#board_container .player_info.turn {
+  color : darkturquoise;
+}
+
+#board_container .player_info.winner {
+  color : orange;
+}
+
+/*
+ * Tic Tac Toe board
+ */
+ table#board {
+   border-collapse: collapse;
+   margin : 0 auto;
+ }
+ #board td {
+   width: 140px;
+   height : 140px;
+   border: 4px solid #999;
+   margin : 0 !important;
+   padding : 0 !important;
+ }
+ #board td::after {
+   content: '';
+   display: block;
+ }
+
+ #board tr td:first-of-type {
+   border-left-color: transparent;
+   border-top-color: transparent;
+ }
+ #board tr td:nth-of-type(2) {
+   border-top-color: transparent;
+ }
+
+ #board td:nth-of-type(3) {
+   border-right-color: transparent;
+   border-top-color: transparent;
+ }
+
+ #board tr:nth-of-type(3) td {
+   border-bottom-color: transparent;
+ }
+
+ #board td:hover {
+   cursor : pointer;
+ }
+
+ #board td.player1:not(.ghost):hover,  #board td.player2:not(.ghost):hover {
+   background: LightPink ;
+   cursor : not-allowed;
+ }
+
+ #board td.player1::after, #board td.player2::after {
+   font-family: 'Font Awesome 5 Free';
+   display: inline-block;
+   padding : 0;
+   margin : 0;
+   vertical-align: middle;
+   text-align: center;
+   line-height: 136px;
+   font-size: 90px;
+   width: 136px;
+ }
+
+ #board td.player1::after {
+   content: "\f111";
+   color : green;
+   font-weight: 400;
+ }
+
+ #board td.player2::after {
+   content: "\f00d";
+   color : white;
+   font-weight: 900;
+   text-shadow: 4px 0 0 red, -4px 0 0 red, 0 4px 0 red, 0 -4px 0 red, 1px 1px red, -1px -1px 0 red, 1px -1px 0 red, -1px 1px 0 red;
+ }
+
+ #board td.ghost {
+   opacity: 0.25;
+ }

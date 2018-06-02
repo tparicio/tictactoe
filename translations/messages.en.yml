@@ -1,0 +1,8 @@
+app_name: Tic Tac Toe
+onevsone_help: Two players in same machine by turns
+onevsmachine_help: Play against machine
+player1_wins: Player1 wins!
+player2_wins: Player2 wins!
+game_draw: The game ended in a draw!
+rematch: Rematch
+home: Home

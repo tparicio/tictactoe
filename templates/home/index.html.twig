@@ -1,0 +1,35 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block body %}
+    <div class="text-center my-5">
+        <img src="{{ asset('img/Tic_Tac_Toe-128.png') }}"
+             title="{% trans %}app_name{% endtrans %}"
+             alt="{% trans %}app_name{% endtrans %}"/>
+      <h1 class="mt-5">{% trans %}app_name{% endtrans %}<h1>
+      <h4>by Toni Paricio</h2>
+    </div>
+    <div id="game-modes">
+        <a class="game-mode" href="/index.php/game/new/human">
+          <div class="title">
+            {% trans %}One vs One{% endtrans %}
+          </div>
+          <div class="icon">
+            <i class="fa fa-user fa-2x"></i>
+            <span>vs</span>
+            <i class="fa fa-user fa-2x"></i>
+          </div>
+          <p class="help-block">{% trans %}onevsone_help{% endtrans %}</p>
+        </a>
+        <a class="game-mode" href="/index.php/game/new/machine">
+            <div class="title">
+              {% trans %}One vs Machine{% endtrans %}
+            </div>
+            <div class="icon">
+                <i class="fa fa-user fa-2x"></i>
+                <span>vs</span>
+                <i class="fa fa-laptop fa-2x"></i>
+            </div>
+            <p class="help-block">{% trans %}onevsmachine_help{% endtrans %}</p>
+        </a>
+    </div>
+{% endblock %}

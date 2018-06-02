@@ -1,0 +1,32 @@
+#index:
+#    path: /
+#    defaults: { _controller: 'App\Controller\DefaultController::index' }
+login:
+    path:     /login
+    defaults: { _controller: App\Controller\UserController:login }
+
+login_check:
+    path: /login_check
+
+logout:
+    path: /logout
+
+game:
+    path:     /game/{game}
+    defaults: { _controller: App\Controller\GameController:game }
+
+game_human:
+    path:     /game/new/human
+    defaults: { _controller: App\Controller\GameController:human }
+
+game_machine:
+    path:     /game/new/machine
+    defaults: { _controller: App\Controller\GameController:machine }
+
+move:
+    path:     /game/play/move
+    defaults: { _controller: App\Controller\GameController:move }
+
+rematch:
+    path:     /game/rematch/{game}
+    defaults: { _controller: App\Controller\GameController:rematch }
