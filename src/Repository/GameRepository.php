@@ -212,4 +212,20 @@ class GameRepository extends EntityRepository
 
       return $queryBuilder->getQuery()->getResult();
     }
+
+    /**
+     * return games of one serie
+     *
+     * @return integer $group
+     */
+    public function getHistory($group)
+    {
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()
+            ->select('game.result, game.created_at')
+            ->where('game.group = :group')
+            ->from('App\Entity\Game','game')
+            ->setParameter('group',$group);;
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 }

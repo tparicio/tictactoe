@@ -23,6 +23,12 @@ class Game
     private $id;
 
     /**
+     * @ORM\Column(type="integer", name="group_id")
+     * @var integer|null
+     */
+    private $group;
+
+    /**
      * @ORM\Column(type="string")
      * @var string
      */
@@ -325,4 +331,29 @@ class Game
 
         return $this;
     }
+
+    /**
+     * Get the value of Group
+     *
+     * @return integer|null
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
+
+    /**
+     * Set the value of Group
+     *
+     * @param integer|null group
+     *
+     * @return self
+     */
+    public function setGroup($group)
+    {
+        $this->group = $group;
+
+        return $this;
+    }
+
 }

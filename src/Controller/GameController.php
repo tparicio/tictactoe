@@ -33,31 +33,43 @@ class GameController extends Controller
             $game->getBitboardTwo()
         );
 
-        return $this->render('game/board.html.twig', ['game' => $game, 'bitboard' => $bitboard]);
+        return $this->render('game/board.html.twig', [
+            'game' => $game,
+            'games' => $entityManager->getRepository(Game::class)->getHistory($game->getGroup()),
+            'bitboard' => $bitboard
+        ]);
     }
 
     /**
      * create new game human vs machine
      *
      * @param integer $turn = 1 : player who open game
+     * @param integer|null $group = null : original game when rematch
      * @Route("/game/new/human")
      */
-    public function human($turn = 1)
+    public function human($turn = 1, $group = null)
     {
         // get doctrince manager
         $entityManager = $this->getDoctrine()->getManager();
 
         $game = new Game();
-        $game->setPlayerOne(0);
-        $game->setPlayerTwo(0);
-        $game->setTurn($turn);
-        $game->setMode('human');
+        $game->setPlayerOne(0)
+            ->setPlayerTwo(0)
+            ->setTurn($turn)
+            ->setMode('human')
+            ->setGroup($group);
 
         // save game
         $entityManager->persist($game);
 
         // executes the queries
         $entityManager->flush();
+
+        // if first game in a series then set this own game id as group
+        if (!$group) {
+            $game->setGroup($game->getId());
+            $entityManager->flush();
+        }
 
         return $this->redirectToRoute('game', ['game' =>$game->getId()]);
     }
@@ -66,24 +78,32 @@ class GameController extends Controller
      * create new game human vs machine
      *
      * @param integer $turn = 1 : player who open game
+     * @param integer|null $group = null : original game when rematch
      * @Route("/game/new/machine")
      */
-    public function machine($turn = 1)
+    public function machine($turn = 1, $group = null)
     {
         // get doctrince manager
         $entityManager = $this->getDoctrine()->getManager();
 
         $game = new Game();
-        $game->setPlayerOne(0);
-        $game->setPlayerTwo(null);
-        $game->setTurn($turn);
-        $game->setMode('machine');
+        $game->setPlayerOne(0)
+            ->setPlayerTwo(null)
+            ->setTurn($turn)
+            ->setMode('machine')
+            ->setGroup($group);
 
         // save game
         $entityManager->persist($game);
 
         // executes the queries
         $entityManager->flush();
+
+        // if first game in a series then set this own game id as group
+        if (!$group) {
+            $game->setGroup($game->getId());
+            $entityManager->flush();
+        }
 
         if ($game->getTurn() == 2) {
             $bitboard = $this->machineMove($game);
@@ -105,10 +125,14 @@ class GameController extends Controller
         $move = $repository->findOneByGame($game);
         $turn = $move->getPlayer() == 1 ? 2 : 1;
 
+        // get doctrince manager
+        $entityManager = $this->getDoctrine()->getManager();
+        $game = $entityManager->find('App\Entity\Game', $game);
+
         if ($move->getGame()->getMode() == 'machine') {
-            return $this->machine($turn);
+            return $this->machine($turn, $game->getGroup());
         } else {
-            return $this->human($turn);
+            return $this->human($turn, $game->getGroup());
         }
     }
 
