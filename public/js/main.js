@@ -74,8 +74,9 @@ var sendMove = function(bitboard) {
           gameWinner(response.winner, response.line);
         }
       }
-      if (response.alert) {
-        showAlert(response.alert);
+      if (response.message) {
+        lock = false;
+        showAlert(response.message);
       }
     },
     error : function(xhr, ajaxOptions, thrownError) {
@@ -135,4 +136,9 @@ var setTurn = function(player) {
   $('.player_info.turn').removeClass('turn');
   // set turn to player in tourn
   $('#player'+player+'_info').addClass('turn');
+};
+
+var showAlert = function(message) {
+  //alert(message);
+  swal ( "Oops" ,  message ,  "error" )
 };

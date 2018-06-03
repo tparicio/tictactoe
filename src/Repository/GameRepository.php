@@ -228,4 +228,22 @@ class GameRepository extends EntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+
+    /**
+     * return score for a game series
+     *
+     * @return array indexed by result 
+     */
+    public function getHistoryScore($group)
+    {
+        $queryBuilder = $this->getEntityManager()->createQueryBuilder()
+            ->select('game.result, count(game.id)')
+            ->where('game.result IS NOT NULL')
+            ->andWhere('game.group = :group')
+            ->from('App\Entity\Game','game', 'game.result')
+            ->groupBy('game.result')
+            ->setParameter('group',$group);;
+
+        return $queryBuilder->getQuery()->getArrayResult(\Doctrine\ORM\Query::HYDRATE_ARRAY);
+    }
 }

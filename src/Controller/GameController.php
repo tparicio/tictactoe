@@ -26,16 +26,25 @@ class GameController extends Controller
         // get doctrince manager
         $entityManager = $this->getDoctrine()->getManager();
 
+        // get playing game info
         $game = $entityManager->find('App\Entity\Game', $game);
 
-        $bitboard = $this->bitboards2array(
+        // get bitboards as array for javascript
+        $bitboard = Bitboard::bitboards2array(
             $game->getBitboardOne(),
             $game->getBitboardTwo()
         );
 
+        // get all games played in this series
+        $games = $entityManager->getRepository(Game::class)->getHistory($game->getGroup());
+
+        // get serie scoreboard
+        $score = $entityManager->getRepository(Game::class)->getHistoryScore($game->getGroup());
+
         return $this->render('game/board.html.twig', [
             'game' => $game,
-            'games' => $entityManager->getRepository(Game::class)->getHistory($game->getGroup()),
+            'games' => $games,
+            'results' => $score,
             'bitboard' => $bitboard
         ]);
     }
@@ -53,8 +62,8 @@ class GameController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
 
         $game = new Game();
-        $game->setPlayerOne(0)
-            ->setPlayerTwo(0)
+        $game->setPlayerOne(0)      // anonymous (human) player
+            ->setPlayerTwo(0)       // anonymous (human) player
             ->setTurn($turn)
             ->setMode('human')
             ->setGroup($group);
@@ -87,8 +96,8 @@ class GameController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
 
         $game = new Game();
-        $game->setPlayerOne(0)
-            ->setPlayerTwo(null)
+        $game->setPlayerOne(0)      // anonymous (human) player
+            ->setPlayerTwo(null)    // machine no player
             ->setTurn($turn)
             ->setMode('machine')
             ->setGroup($group);
@@ -105,6 +114,7 @@ class GameController extends Controller
             $entityManager->flush();
         }
 
+        // if game against machine then find machine move
         if ($game->getTurn() == 2) {
             $bitboard = $this->machineMove($game);
         }
@@ -129,6 +139,7 @@ class GameController extends Controller
         $entityManager = $this->getDoctrine()->getManager();
         $game = $entityManager->find('App\Entity\Game', $game);
 
+        // build new bame depending on game mode
         if ($move->getGame()->getMode() == 'machine') {
             return $this->machine($turn, $game->getGroup());
         } else {
@@ -156,6 +167,13 @@ class GameController extends Controller
 
         $game = $entityManager->find('App\Entity\Game', $request->request->get('game'));
 
+        if (!$this->validateMove($game, $bitboard, $player)) {
+            return $this->json([
+                'result' => false,
+                'message' => $this->get('translator')->trans('Move is not allowed!')
+            ]);
+        }
+
         // save move
         $move = new Move();
         $move->setGame($game);
@@ -179,6 +197,7 @@ class GameController extends Controller
 
         // check if player1 wins
         $bitboard = $player == 1 ? $game->getBitboardOne() : $game->getBitboardTwo();
+
         if ($bitboard->isLine()) {
             $game->setResult($player);
             $game->setLine($bitboard->getLine());
@@ -233,11 +252,42 @@ class GameController extends Controller
             // update game with new board status
             $entityManager->flush();
 
-            return $this->json(['result' => true, 'move' => $machine ? $machine->getInteger() : null,  'winner' => 3]);
+            return $this->json([
+                'result' => true,
+                'move' => $machine ? $machine->getInteger() : null,
+                'winner' => 3
+            ]);
         }
 
         // if no winner or draw send regular move
-        return $this->json(['result' => true, 'move' => $machine ? $machine->getInteger() : null]);
+        return $this->json([
+            'result' => true,
+            'move' => $machine ? $machine->getInteger() : null
+        ]);
+    }
+
+    /**
+     * [validateMove description]
+     * @param  Game $game game to validate move
+     * @param  Bitboard $bitboard move to validate
+     * @param  integer $turn user how move
+     * @return boolean
+     */
+    private function validateMove($game, $bitboard, $turn) {
+        // check game is still not finished
+        if ($game->getResult()) {
+            return false;
+        }
+        // check turn is right
+        if ($game->getTurn() != $turn) {
+            return false;
+        }
+        // check square is free
+        $all = $game->getBitboardOne()->or($game->getBitboardTwo());
+        if (!$all->and($bitboard)->isEmpty()) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -351,35 +401,5 @@ class GameController extends Controller
         $move->draw();
 
         return new Response();
-    }
-
-    /**
-     * convert bitboards into array for handle in HTML
-     * each square include:
-     *   · bitboard : bitboard value for this square
-     *   · player : player (1, 2) who got square or '' for empty
-     *
-     * @param integer $player1 bitboard for player1
-     * @param integer $player2 bitboard for player2
-     * @return array
-     */
-    private function bitboards2array($player1, $player2)
-    {
-        $array = [];
-
-        for ($i = 9 ; $i > 0 ; $i--)
-        {
-            $bitboard = Bitboard::index($i - 1);//pow(2, $i-1);
-            $array[$i]['bitboard'] = $bitboard->getInteger();
-            if (!$player1->and($bitboard)->isEmpty()) {
-                $array[$i]['player'] = 'player1';
-            } else if (!$player2->and($bitboard)->isEmpty()) {
-                $array[$i]['player'] = 'player2';
-            } else {
-                $array[$i]['player'] = '';
-            }
-        }
-
-        return $array;
     }
 }

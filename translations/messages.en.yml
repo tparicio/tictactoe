@@ -7,3 +7,5 @@ game_draw: The game ended in a draw!
 rematch: Rematch
 home: Home
 stats: Statistics
+date: Date
+result: Result

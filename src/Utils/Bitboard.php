@@ -262,6 +262,36 @@ class Bitboard {
    }
 
    /**
+    * convert bitboards into array for handle in HTML
+    * each square include:
+    *   · bitboard : bitboard value for this square
+    *   · player : player (1, 2) who got square or '' for empty
+    *
+    * @param integer $player1 bitboard for player1
+    * @param integer $player2 bitboard for player2
+    * @return array
+    */
+   public static function bitboards2array($player1, $player2)
+   {
+       $array = [];
+
+       for ($i = 9 ; $i > 0 ; $i--)
+       {
+           $bitboard = Bitboard::index($i - 1);//pow(2, $i-1);
+           $array[$i]['bitboard'] = $bitboard->getInteger();
+           if (!$player1->and($bitboard)->isEmpty()) {
+               $array[$i]['player'] = 'player1';
+           } else if (!$player2->and($bitboard)->isEmpty()) {
+               $array[$i]['player'] = 'player2';
+           } else {
+               $array[$i]['player'] = '';
+           }
+       }
+
+       return $array;
+   }
+
+   /**
     * return bitboard as integer when used as string
     *
     * @return string
